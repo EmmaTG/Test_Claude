@@ -1,0 +1,30 @@
+# --- Go ---
+# Compiled binaries (the Docker build emits ./microservice)
+backend/microservice/microservice
+*.exe
+*.dll
+*.so
+*.dylib
+# Test & coverage output
+*.test
+*.out
+coverage.*
+# Vendored deps (we use modules)
+vendor/
+
+# --- Environment & secrets ---
+# docker-compose reads ANTHROPIC_API_KEY (and DB creds) from the environment.
+# Never commit real values.
+.env
+.env.*
+!.env.example
+
+# --- Editors / OS ---
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# --- Claude Code ---
+# Personal, machine-local settings (shared project settings stay tracked)
+.claude/settings.local.json

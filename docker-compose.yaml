@@ -1,0 +1,60 @@
+services:
+  claude:
+    build: .
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - .:/app
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Go Microservice
+  api:
+    build:
+      context: backend/microservice/
+      dockerfile: Dockerfile
+    container_name: go_microservice
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_NAME=mydb
+      - APP_PORT=8080
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # PostgreSQL Database
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
