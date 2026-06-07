@@ -21,7 +21,4 @@ fi
 
 git remote set-url origin https://${GH_TOKEN}@github.com/EmmaTG/Test_Claude.git
 
-
-echo "Successful!"
-exec "$@"
-# exec claude "$@"
+exec claude "$@"
