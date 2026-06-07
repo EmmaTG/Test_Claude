@@ -1,8 +1,11 @@
 services:
   claude:
-    build: .
+    build:
+      context: claude/
+      dockerfile: Dockerfile
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GH_TOKEN=${GH_TOKEN_CLAUDE}
     volumes:
       - .:/app
     depends_on:

@@ -55,6 +55,5 @@ The DB is reachable from the host on `localhost:5432` and from `api` at
 
 ## Workflow
 
-- Claude proposes a plan before non-trivial changes and works on a branch.
-- Claude **suggests** git commands; the human runs them (auth-sensitive steps
-  like `push` stay with the human).
+- Claude proposes a plan before all changes and works on a branch.
+- Claude and create commit, push on a feature branch and create a pull requests.
